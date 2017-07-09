@@ -2,31 +2,26 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    private static final int MAX_SIZE = 3;
-    private Resume[] storage = new Resume[MAX_SIZE];
-    private int size = 0;
+public class ArrayStorage extends AbstractArrayStorage {
 
     public void clear() {
-        for(int i = 0; i < size; i++)
-        {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
     public void save(Resume r) {
-        if(size >= MAX_SIZE)
+        if(size >= STORAGE_LIMIT)
         {
             System.out.println("ERROR(save): Array is full");
         }
         else
         {
-            int index = getIndex(r.getUuid());
-            if(index >= 0)
+            if(getIndex(r.getUuid()) >= 0)
             {
                 System.out.println("ERROR(save): Resume is exists already");
             }
@@ -51,16 +46,6 @@ public class ArrayStorage {
 
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if(index < 0)
-        {
-            System.out.println("ERROR(get): Resume is not exists");
-            return null;
-        }
-        return storage[index];
-    }
-
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if(index < 0)
@@ -79,16 +64,11 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        Resume[] result = new Resume[size];
-        System.arraycopy(storage, 0, result, 0, size);
-        return result;
+        return Arrays.copyOfRange(storage, 0, size);
     }
 
-    public int size() {
-        return size;
-    }
-
-    private int getIndex(String uuid)
+    @Override
+    protected int getIndex(String uuid)
     {
         for(int i = 0; i < size; i++)
         {
