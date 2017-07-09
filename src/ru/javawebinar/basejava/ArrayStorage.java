@@ -1,3 +1,5 @@
+package ru.javawebinar.basejava;
+
 /**
  * Array based storage for Resumes
  */

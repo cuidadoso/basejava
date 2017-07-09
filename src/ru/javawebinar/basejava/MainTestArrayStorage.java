@@ -1,3 +1,5 @@
+package ru.javawebinar.basejava;
+
 /**
  * Test for com.urise.webapp.storage.ArrayStorage
  */
