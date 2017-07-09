@@ -12,12 +12,12 @@ public class ArrayStorage {
         {
             storage[i] = null;
         }
-        calcSize();
+        size = 0;
     }
 
     void save(Resume r) {
         storage[size] = r;
-        calcSize();
+        size++;
     }
 
     Resume get(String uuid) {
@@ -39,11 +39,13 @@ public class ArrayStorage {
                 break;
             }
         }
-        for(int i = delPos; i < size; i++)
-        {
-            storage[i] = storage[i + 1];
+        if(delPos >= 0) {
+            for(int i = delPos; i < size; i++)
+            {
+                storage[i] = storage[i + 1];
+            }
+            size--;
         }
-        calcSize();
     }
 
     /**
@@ -57,14 +59,5 @@ public class ArrayStorage {
 
     int size() {
         return size;
-    }
-
-    void calcSize() {
-        for(int i = 0; i < storage.length; i++)
-        {
-            size = i;
-            if(storage[i] == null)
-                break;
-        }
     }
 }
