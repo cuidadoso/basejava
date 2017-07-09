@@ -7,7 +7,7 @@ import ru.javawebinar.basejava.model.Resume;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int size = 0;
+    private int size = 0;
 
     public void clear() {
         for(int i = 0; i < size; i++)
