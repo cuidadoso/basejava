@@ -32,22 +32,39 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        int delPos = -1;
-        for(int i = 0; i < size; i++)
+        if(size < 100)
         {
-            if(uuid.equals(storage[i].getUuid()))
+            int delPos = -1;
+            for(int i = 0; i < size; i++)
             {
-                delPos = i;
-                break;
+                if(uuid.equals(storage[i].getUuid()))
+                {
+                    delPos = i;
+                    break;
+                }
+            }
+            if(delPos >= 0) {
+                for(int i = delPos; i < size; i++)
+                {
+                    storage[i] = storage[i + 1];
+                }
+                size--;
             }
         }
-        if(delPos >= 0) {
-            for(int i = delPos; i < size; i++)
+        else
+        {
+            for(int i = 0; i < size; i++)
             {
-                storage[i] = storage[i + 1];
+                if(uuid.equals(storage[i].getUuid()))
+                {
+                    storage[i] = storage[size - 1];
+                    storage[size - 1] = null;
+                    size--;
+                }
             }
-            size--;
         }
+
+
     }
 
     /**
