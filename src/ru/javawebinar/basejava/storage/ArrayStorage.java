@@ -36,9 +36,9 @@ public class ArrayStorage {
         }
     }
 
-    public void update(String uuid, Resume r) {
-        int index = getIndex(uuid);
-        if(index <0)
+    public void update(Resume r) {
+        int index = getIndex(r.getUuid());
+        if(index < 0)
         {
             System.out.println("ERROR(update): Resume is not exists");
             return;
