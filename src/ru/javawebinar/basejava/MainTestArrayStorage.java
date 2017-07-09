@@ -33,8 +33,6 @@ public class MainTestArrayStorage {
         printAll();
         ARRAY_STORAGE.delete("dummy");
         ARRAY_STORAGE.update(r1);
-        printAll();
-        ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.clear();
         printAll();
 

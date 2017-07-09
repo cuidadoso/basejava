@@ -29,10 +29,12 @@ public class ArrayStorage {
             if(index >= 0)
             {
                 System.out.println("ERROR(save): Resume is exists already");
-                return;
             }
-            storage[size] = r;
-            size++;
+            else
+            {
+                storage[size] = r;
+                size++;
+            }
         }
     }
 
@@ -41,18 +43,22 @@ public class ArrayStorage {
         if(index < 0)
         {
             System.out.println("ERROR(update): Resume is not exists");
-            return;
         }
-        storage[index] = r;
+        else
+        {
+            storage[index] = r;
+        }
+
     }
 
     public Resume get(String uuid) {
-        for(int i = 0; i < size; i++)
+        int index = getIndex(uuid);
+        if(index < 0)
         {
-            if(uuid.equals(storage[i].getUuid()))
-                return storage[i];
+            System.out.println("ERROR(get): Resume is not exists");
+            return null;
         }
-        return null;
+        return storage[index];
     }
 
     public void delete(String uuid) {
@@ -60,11 +66,13 @@ public class ArrayStorage {
         if(index < 0)
         {
             System.out.println("ERROR(delete): Resume is not exists");
-            return;
         }
-        storage[index] = storage[size - 1];
-        storage[size - 1] = null;
-        size--;
+        else
+        {
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+        }
     }
 
     /**
@@ -82,12 +90,11 @@ public class ArrayStorage {
 
     private int getIndex(String uuid)
     {
-        int result = -1;
         for(int i = 0; i < size; i++)
         {
             if(uuid.equals(storage[i].getUuid()))
-                result = i;
+                return i;
         }
-        return result;
+        return -1;
     }
 }
