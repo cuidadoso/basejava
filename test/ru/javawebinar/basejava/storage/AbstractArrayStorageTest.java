@@ -1,5 +1,6 @@
 package ru.javawebinar.basejava.storage;
 
+import org.junit.Before;
 import org.junit.Test;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
@@ -13,9 +14,11 @@ import static org.junit.Assert.*;
  */
 public abstract class AbstractArrayStorageTest {
 
-    private Storage storage = createStorage();
+    private final Storage storage;
 
-    protected abstract Storage createStorage();
+    protected AbstractArrayStorageTest(final Storage storage) {
+        this.storage = storage;
+    }
 
     private static final String UUID1 = "uuid1";
     private static final String UUID2 = "uuid2";
@@ -23,7 +26,8 @@ public abstract class AbstractArrayStorageTest {
     private static final String UUID4 = "uuid4";
     private static final String UUID5 = "uuid5";
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         storage.clear();
         storage.save(new Resume(UUID1));
         storage.save(new Resume(UUID2));
