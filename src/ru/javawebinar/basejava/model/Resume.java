@@ -1,12 +1,13 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * com.urise.webapp.model.Resume class
  */
-public class Resume implements Comparable<Resume> {
-
+public class Resume implements Comparable<Resume>, Serializable {
+    private static final long serialVersionUid = 1l;
     // Unique identifier
     private final String uuid;
     private final String fullName;

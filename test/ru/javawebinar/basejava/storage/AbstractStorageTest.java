@@ -6,6 +6,7 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 
+import java.io.File;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +19,8 @@ import static org.junit.Assert.*;
  */
 public abstract class AbstractStorageTest {
 
+    protected final static String STORAGE_PATH = "storage";
+    protected final static File STORAGE = new File("storage");
     protected final Storage storage;
 
     protected AbstractStorageTest(final Storage storage) {
