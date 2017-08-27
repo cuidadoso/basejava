@@ -27,5 +27,23 @@ public class MainFile {
         } catch(IOException e) {
             throw new RuntimeException(e);
         }
+
+        printDeepDirectory(dir);
+    }
+
+    public static void printDeepDirectory(final File dir) {
+        File[] files = dir.listFiles();
+
+        if(files != null) {
+            Arrays.stream(files)
+                  .forEach(f -> {
+                      if(f.isFile()) {
+                          System.out.println("File: " + f.getName());
+                      } else {
+                          System.out.println("Directory: " + f.getName());
+                          printDeepDirectory(f);
+                      }
+                  });
+        }
     }
 }

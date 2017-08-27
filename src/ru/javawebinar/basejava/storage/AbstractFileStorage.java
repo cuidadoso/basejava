@@ -5,8 +5,10 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
@@ -25,6 +27,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     protected abstract void dqWrite(final Resume r, final File file) throws IOException;
 
+    protected abstract Resume doRead(final File file) throws IOException;
+
     @Override
     protected File getSearchKey(final String uuid) {
         return new File(directory, uuid);
@@ -39,39 +43,63 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void doSave(final Resume r, final File file) {
         try {
             file.createNewFile();
-            dqWrite(r, file);
         } catch(IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
         }
+        doUpdate(r, file);
     }
 
     @Override
     protected void doUpdate(final Resume r, final File file) {
-
+        try {
+            dqWrite(r, file);
+        } catch(IOException e) {
+            throw new StorageException("File write error", file.getName(), e);
+        }
     }
 
     @Override
     protected void doDelete(final File file) {
-
+        if(!file.delete()) {
+            throw new StorageException("File delete error", file.getName());
+        }
     }
 
     @Override
     protected Resume doGet(final File file) {
-        return null;
+        try {
+            return doRead(file);
+        } catch(IOException e) {
+            throw new StorageException("File reade error", file.getName(), e);
+        }
     }
 
     @Override
     protected List<Resume> doCopyAll() {
-        return null;
+        File[] files = directory.listFiles();
+        if(files == null) {
+            throw new StorageException("Directory read error", null);
+        }
+        return Arrays.stream(files)
+                     .map(this::doGet)
+                     .collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-
+        File[] files = directory.listFiles();
+        if(files != null) {
+            Arrays.stream(files)
+                  .forEach(this::doDelete);
+        }
     }
 
     @Override
     public int size() {
-        return 0;
+        String[] list = directory.list();
+        if(list == null) {
+            throw new StorageException("Directory read error", null);
+        }
+        return list.length;
     }
 }
