@@ -28,20 +28,20 @@ public class MainFile {
             throw new RuntimeException(e);
         }
 
-        printDeepDirectory(dir);
+        printDeepDirectory(dir, "");
     }
 
-    public static void printDeepDirectory(final File dir) {
+    private static void printDeepDirectory(final File dir, final String offset) {
         File[] files = dir.listFiles();
 
         if(files != null) {
             Arrays.stream(files)
                   .forEach(f -> {
                       if(f.isFile()) {
-                          System.out.println("File: " + f.getName());
+                          System.out.println(offset + "F: " + f.getName());
                       } else {
-                          System.out.println("Directory: " + f.getName());
-                          printDeepDirectory(f);
+                          System.out.println(offset + "D: " + f.getName());
+                          printDeepDirectory(f, offset + "  ");
                       }
                   });
         }
