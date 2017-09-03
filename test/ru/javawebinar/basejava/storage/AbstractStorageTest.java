@@ -8,9 +8,7 @@ import ru.javawebinar.basejava.model.*;
 
 import java.io.File;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -37,6 +35,7 @@ public abstract class AbstractStorageTest {
     protected static final Resume R4;
     private static final String UUID5 = "uuid5";
     protected static final Resume R5;
+    private static final List<Resume> RESUMES = new ArrayList<>();
 
     static {
         R1 = new Resume(UUID1, "Name1");
@@ -70,6 +69,10 @@ public abstract class AbstractStorageTest {
                               new Organization("Organization21", "http://Organization21.com",
                                                new Organization.Position(2015, Month.JANUARY, "position22", "conteny22"))));
 
+        RESUMES.add(R1);
+        RESUMES.add(R2);
+        RESUMES.add(R3);
+        Collections.sort(RESUMES);
     }
 
     @Before
